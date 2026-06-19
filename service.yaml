@@ -1,22 +1,12 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: v1
+kind: Service
 metadata:
-  name: my-app
-  namespace: argocd
-
+  name: my-app-service
 spec:
-  project: default
-
-  source:
-    repoURL: https://github.com/raj06706/gitops-repo
-    targetRevision: HEAD
-    path: .
-
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: default
-
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+  type: NodePort
+  selector:
+    app: my-app
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30007
